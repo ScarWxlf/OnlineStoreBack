@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: "fastapi"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/:/shop/src
+      - ./alembic:/shop/alembic
+      - ./upload:/shop/upload
+    depends_on:
+      - db
+    networks:
+      - merch-network
+
+  db:
+    image: postgres:16.1-alpine3.19
+    container_name: "postgres"
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASS}
+      - POSTGRES_DB={PG_DB}
+    volumes:
+      - /home/deyakk/pg_data_merch/:/var/lib/postgresql/data/
+    networks:
+      - merch-network
+
+networks:
+  merch-network:
+    driver: bridge
