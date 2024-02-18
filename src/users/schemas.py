@@ -1,11 +1,11 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator, Field
 
 from src.users.utils import password_validation
 
 
 class UserBase(BaseModel):
     email: EmailStr
-    username: str
+    username: str = Field(min_length=5)
 
 
 class UserIn(UserBase):
@@ -32,3 +32,7 @@ class UserOutReg(BaseModel):
     username: str
     image: str
     access_token: str
+
+
+class UserChange(BaseModel):
+    username: str = Field(min_length=5)

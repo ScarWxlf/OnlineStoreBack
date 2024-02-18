@@ -12,7 +12,7 @@ def get_db():
         yield session
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/auth/login/')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login/')
 
 db_dependency = Annotated[Session, Depends(get_db)]
 token_dependency = Annotated[str, Depends(oauth2_scheme)]
